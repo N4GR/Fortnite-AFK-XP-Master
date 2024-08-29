@@ -7,6 +7,8 @@
   <img width="12"></img>
 </div>
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J010UMZL)
+
 > [!WARNING]
 > Using scripts in Fortnite is against EPIC TOS - although nobody has been banned; I can't guarantee you won't.
 
