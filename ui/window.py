@@ -4,6 +4,30 @@ log = SetupLogging("WINDOW ")
 # Local imports
 import objects
 
+class ClickThroughWidget(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TransparentForMouseEvents, False)
+
+    def mousePressEvent(self, event: QtGui.QMouseEvent) -> None:
+        # Pass mouse events through to the background
+        if event.button() == QtCore.Qt.MouseButton.LeftButton:
+            self.parent().mousePressEvent(event)
+        super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event: QtGui.QMouseEvent) -> None:
+        # Pass mouse events through to the background
+        if event.button() == QtCore.Qt.MouseButton.LeftButton:
+            self.parent().mouseReleaseEvent(event)
+        super().mouseReleaseEvent(event)
+
+    def mouseMoveEvent(self, event: QtGui.QMouseEvent) -> None:
+        # Pass mouse events through to the background
+        if event.buttons() & QtCore.Qt.MouseButton.LeftButton:
+            self.parent().mouseMoveEvent(event)
+        super().mouseMoveEvent(event)
+
 # Initialising Main PyQt6 class
 class FNMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -33,11 +57,9 @@ class FNMainWindow(QtWidgets.QMainWindow):
 
         # Assigning window Icon.
         self.setWindowIcon(QtGui.QIcon(QtGui.QPixmap.fromImage(window.icon)))
-
-        # Creating the background for the Window.
-        label = QtWidgets.QLabel(self)
-        label.setPixmap(QtGui.QPixmap.fromImage(window.background))
-        self.setCentralWidget(label)
+        
+        # Setting click-through widget as main widget.
+        self.setCentralWidget(ClickThroughWidget(self))
 
         # Making the window transparent and frameless to view just the background.
         self.setStyleSheet(r"QMainWindow {background: transparent}")
@@ -45,7 +67,6 @@ class FNMainWindow(QtWidgets.QMainWindow):
         # Set the window to stay on top, be frameless, and transparent to input.
         self.setWindowFlag(QtCore.Qt.WindowType.WindowStaysOnTopHint)
         self.setWindowFlag(QtCore.Qt.WindowType.FramelessWindowHint)
-        self.setWindowFlag(QtCore.Qt.WindowType.WindowTransparentForInput)
 
         # Set the background to be transparent.
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)

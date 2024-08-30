@@ -1,5 +1,7 @@
 # Third-party imports
 from PyQt6 import QtWidgets, QtGui, QtCore
+from PIL import Image
+from PIL.ImageQt import ImageQt
 
 # Python libraries
 import ctypes
