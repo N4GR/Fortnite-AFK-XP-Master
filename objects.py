@@ -56,14 +56,12 @@ class Directory:
 class Window:
     def __init__(self) -> None:
         """Window object to contain data regarding the PyQt6 window."""
-        self.height = 0
-        self.width = 0
-
         self.title = "Fortnite AFK XP Master"
         self.app_id = "vamptek.fortnite.afkxpmaster.v1"
 
         self.icon = ImageQt(Image.open(GetAsset("icon.png")))
         self.background = ImageQt(Image.open(GetAsset("background.png")))
+
 class Screen:
     def __init__(self) -> None:
         """Screen object with information regarding the displays of the user."""
