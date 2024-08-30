@@ -1,5 +1,7 @@
 # Imports to avoid circular importing.
 from PIL.ImageQt import ImageQt, Image
+from screeninfo import get_monitors, Monitor
+
 import sys
 import os
 
@@ -62,3 +64,37 @@ class Window:
 
         self.icon = ImageQt(Image.open(GetAsset("icon.png")))
         self.background = ImageQt(Image.open(GetAsset("background.png")))
+class Screen:
+    def __init__(self) -> None:
+        """Screen object with information regarding the displays of the user."""
+        self.list = get_monitors()
+
+        self.primary = self.GetPrimary()
+
+    def GetPrimary(self) -> Monitor:
+        """Function to return the main monitor object.
+
+        Returns:
+            Monitor: Monitor object from screeninfo.
+        """
+        for monitor in self.list:
+            if monitor.is_primary is True:
+                return monitor
+
+    def ScaleSize(self, height: int, width: int) -> tuple[int]:
+        """A function to correctly scale down or up a height and width from a 4K display.
+
+        Args:
+            height (int): Height of the object you want to scale.
+            width (int): With of the object you want to scale.
+
+        Returns:
+            tuple[int]: A tuple of the newly made height and width. Example: (height, width)
+        """
+        height_scale_factor = self.primary.height / 2160
+        width_scale_factor = self.primary.width / 3840
+
+        new_height = int(height * height_scale_factor)
+        new_width = int(width * width_scale_factor)
+
+        return (new_height, new_width)
