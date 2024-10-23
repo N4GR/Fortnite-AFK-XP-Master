@@ -1,21 +1,12 @@
 from imports import *
-log = SetupLogging("MAIN   ")
 
-# Local imports
-import ui.startup
-import objects
-from util.update import Update
+# Local imports.
+from gamepad import GamePad, CONTROLLER
+
+from random import uniform
 
 if __name__ == "__main__":
-    # Initialising required objects.
-    window = objects.Window()
+    pad = GamePad()
 
-    # Setting window app ID.
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(window.app_id)
-
-    # Check for updates.
-    update = Update()
-
-    # Initialising Main window.
-    log.debug("Creating UI...")
-    ui.startup.UI()
+    while True:
+        pad.Joystick(hold_time = 1, x = round(uniform(-1, 1), 1), y = round(uniform(-1, 1), 1))
