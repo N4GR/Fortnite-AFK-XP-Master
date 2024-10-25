@@ -4,3 +4,5 @@ class PROCESS:
 class WINDOW:
     HEIGHT = 300
     WIDTH = 300
+
+    TITLE = "Fortnite AFK Master"

@@ -8,7 +8,7 @@ from PyQt6.QtCore import QSize, Qt, QPoint, QThread
 
 # Local imports
 from config.obj import WINDOW, PROCESS
-from ui.assets import panel
+from ui.assets import panel, button
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
         PANEL = panel()
 
         self.setFixedSize(WINDOW.WIDTH, WINDOW.HEIGHT)
-        self.setWindowTitle("Fortnite AFK Master")
+        self.setWindowTitle(WINDOW.TITLE)
 
         self.setWindowIcon(QIcon(QPixmap.fromImage(PANEL.ICON)))
 
@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
             Qt.WindowType.FramelessWindowHint
         )
         
-        #self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     
     def mousePressEvent(self, event):
         """A function used to handle anything when the mouse is pressed.
@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
             event (_type_): Event that's being issued.
         """
         if event.button() == Qt.MouseButton.LeftButton:
-            if event.pos().y() < 100:
+            if event.pos().y() < 50:
                 self.offset = event.pos()
         else:
             super().mousePressEvent(event)
@@ -82,6 +82,10 @@ class ui():
         self.main_app = self.createApp()
         
         self.main_window = MainWindow()
+
+        # Initialise buttons.
+        self.buttons = buttons(self.main_window)
+
         self.main_window.show()
 
         self.createExit()
@@ -100,5 +104,95 @@ class ui():
         """A function that exits the main application."""
         sys.exit(self.main_app.exec())
 
-if __name__ == "__main__":
-    ui()
+class buttons():
+    def __init__(self, main_window: MainWindow) -> None:
+        '''Buttons class containing and initilising all buttons related to the main ui.
+        
+        Attributes:
+            exit [QPushButton]: Exit push button of the main UI.
+            minimise [QPushButton]: Minimise push button of the main UI.
+        '''
+        self.main_window = main_window
+
+        self.button = button()
+
+        self.exit = self.exitButton()
+        self.minimise = self.minimiseButton()
+        
+    def exitButton(self) -> QPushButton:
+        """Exit button that's created to handle the exitting of the program when it's clicked.
+
+        Returns:
+            QPushButton: Button created for the exit button.
+        """
+        def pressed():
+            '''
+            Changes the button icon on press.
+            '''
+            button.setIcon(QIcon(QPixmap.fromImage(self.button.exit.down)))
+
+        def released():
+            '''
+            Changes the button icon on release.
+            '''
+            button.setIcon(QIcon(QPixmap.fromImage(self.button.exit.up)))
+        
+        def func():
+            """Function called when the exit button is clicked."""
+            sys.exit()
+
+        # Creating button widget
+        button = QPushButton("", self.main_window)
+        button.clicked.connect(func)
+        button.pressed.connect(pressed)
+        button.released.connect(released)
+        button.setGeometry(285, 10,
+                           8, 8)
+
+        # Setting icon
+        button.setIcon(QIcon(QPixmap.fromImage(self.button.exit.up)))
+        button.setIconSize(QSize(8, 8))
+
+        # Object styling handling
+        button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+
+        return button
+    
+    def minimiseButton(self) -> QPushButton:
+        """Function to create and set any function for minimising.
+
+        Returns:
+            QPushButton: Object created for the button.
+        """
+        def pressed():
+            '''
+            Changes the button icon on press.
+            '''
+            button.setIcon(QIcon(QPixmap.fromImage(self.button.minimise.down)))
+
+        def released():
+            '''
+            Changes the button icon on release.
+            '''
+            button.setIcon(QIcon(QPixmap.fromImage(self.button.minimise.up)))
+        
+        def func():
+            """Functiopn called when the minimise button is pressed."""
+            self.main_window.showMinimized()
+
+        # Creating button widget
+        button = QPushButton("", self.main_window)
+        button.clicked.connect(func)
+        button.pressed.connect(pressed)
+        button.released.connect(released)
+        button.setGeometry(270, 10,
+                           8, 8)
+
+        # Setting icon
+        button.setIcon(QIcon(QPixmap.fromImage(self.button.minimise.up)))
+        button.setIconSize(QSize(8, 8))
+
+        # Object styling handling
+        button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+
+        return button
