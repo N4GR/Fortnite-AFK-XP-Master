@@ -17,8 +17,13 @@ class GamePad:
     def __init__(self):
         """Class to initialise gamepad and perform presses"""
         self.gamepad = vgamepad.VX360Gamepad()
-        
+    
+    def Run(self, stop_event: threading.Event):
         self.Wake()
+
+        while not stop_event.is_set():
+            print("Doing joystick stuff.")
+            self.Joystick(hold_time = randint(1, 10), x = round(uniform(-1, 1), 1), y = round(uniform(-1, 1), 1))
 
     def Wake(self):
         """Function to press a random button to wake up the device and detect it with game."""

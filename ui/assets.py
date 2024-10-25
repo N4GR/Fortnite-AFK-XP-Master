@@ -8,6 +8,9 @@ class button(object):
         self.minimise = self.ToggleButton("minimise")
         self.lego = self.ToggleButton("lego")
         self.jam = self.ToggleButton("jam")
+        self.help = self.ToggleButton("help")
+        self.start = self.ToggleButton("start")
+        self.pause = self.ToggleButton("pause")
 
     class ToggleButton(object):
         def __init__(self,

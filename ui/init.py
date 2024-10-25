@@ -84,13 +84,16 @@ class ui():
         '''
         self.main_app = self.createApp()
         
+        # Creates the main window, adding 20 as the movable area from top.
         self.main_window = MainWindow(moveable_y = 20)
 
         # Initialise buttons.
-        self.buttons = buttons(self.main_window)
+        self.buttons = buttons(main_window = self.main_window)
 
+        # Shows the main window.
         self.main_window.show()
 
+        # Creates the exit function.
         self.createExit()
     
     def createApp(self) -> QApplication:
@@ -107,27 +110,62 @@ class ui():
         """A function that exits the main application."""
         sys.exit(self.main_app.exec())
 
+# Variable for assigning the current open window to.
+open_window : QWidget = None
 class buttons():
-    def __init__(self, main_window: MainWindow) -> None:
+    def __init__(self,
+                 main_window: MainWindow) -> None:
         '''Buttons class containing and initilising all buttons related to the main ui.
         
         Attributes:
             exit [QPushButton]: Exit push button of the main UI.
             minimise [QPushButton]: Minimise push button of the main UI.
         '''
+        # Assigning default arguments to variables.
         self.main_window = main_window
 
-        self.button = button()
+        # Initialising layouts.
+        self.titlebarlayout = self.ButtonLayout(self.main_window, position = (240, 0), size = (50, 40))
+        self.modulelayout = self.ButtonLayout(self.main_window, position = (0, 0), size = (200, 100))
 
-        self.exit = self.exitButton(self.main_window, self.button)
-        self.minimise = self.minimiseButton(self.main_window, self.button)
-        self.lego = self.legoButton(self.main_window, self.button)
-        self.jam = self.jamButton(self.main_window, self.button)
+        # Assigning button assets.
+        self.button_assets = button()
+
+        # Adding the buttons.
+        self.minimise = self.minimiseButton(self.main_window,
+                                            self.button_assets,
+                                            self.titlebarlayout)
+        
+        self.exit = self.exitButton(self.main_window,
+                                    self.button_assets,
+                                    self.titlebarlayout)
+
+        self.lego = self.legoButton(self.main_window,
+                                    self.button_assets,
+                                    self.modulelayout)
+        
+        self.jam = self.jamButton(self.main_window,
+                                  self.button_assets,
+                                  self.modulelayout)
+    
+    class ButtonLayout:
+        def __init__(self, main_window: QMainWindow, position: tuple[int], size: tuple[int]):
+            self.main_window = main_window
+            self.x, self.y = position
+            self.width, self.height = size
+            
+            self.layout = QHBoxLayout()
+            self.widget = QWidget(parent = self.main_window)
+
+            self.widget.setGeometry(self.x, self.y, self.width, self.height)
+
+            self.widget.setLayout(self.layout)
 
     class exitButton:
         def __init__(self,
                     main_window: QMainWindow,
-                    button: button):
+                    button_assets: button,
+                    layout: QHBoxLayout):
             """Exit button that's created to handle the exitting of the program when it's clicked.
 
             Returns:
@@ -135,10 +173,11 @@ class buttons():
             """
             self.main_window = main_window
             self.new_window = None
-            self.button_assets = button
+            self.button_assets = button_assets
+            self.layout = layout.layout
 
             # Dimensions
-            self.width, self.height = (8, 8)
+            self.width, self.height = (10, 10)
             self.x, self.y = (275, 15)
 
             # Creating button widget
@@ -156,6 +195,9 @@ class buttons():
 
             # Object styling handling
             self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+
+            # Adding the widget to the layout.
+            self.layout.addWidget(self.button)
         
         def pressed(self):
             '''
@@ -176,7 +218,8 @@ class buttons():
     class minimiseButton:
         def __init__(self,
                     main_window: QMainWindow,
-                    button: button):
+                    button_assets: button,
+                    layout: QHBoxLayout):
             """Function to create and set the function for lego.
 
             Returns:
@@ -184,10 +227,11 @@ class buttons():
             """
             self.main_window = main_window
             self.new_window = None
-            self.button_assets = button
+            self.button_assets = button_assets
+            self.layout = layout.layout
 
             # Dimensions
-            self.width, self.height = (8, 8)
+            self.width, self.height = (10, 10)
             self.x, self.y = (260, 15)
 
             # Creating button widget
@@ -205,6 +249,9 @@ class buttons():
 
             # Object styling handling
             self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+
+            # Adding the widget to the layout.
+            self.layout.addWidget(self.button)
 
         def pressed(self):
             '''
@@ -225,7 +272,8 @@ class buttons():
     class legoButton:
         def __init__(self,
                     main_window: QMainWindow,
-                    button: button):
+                    button_assets: button,
+                    layout: QHBoxLayout):
             """Function to create and set the function for lego.
 
             Returns:
@@ -233,7 +281,11 @@ class buttons():
             """
             self.main_window = main_window
             self.new_window = None
-            self.button_assets = button
+            self.button_assets = button_assets
+            self.layout = layout.layout
+
+            # Assigns variable to see if window is open.
+            self.is_open = False
 
             # Dimensions
             width, height = (81, 32)
@@ -243,9 +295,7 @@ class buttons():
             self.button = QPushButton("", self.main_window)
             self.button.clicked.connect(self.func)
             self.button.pressed.connect(self.pressed)
-            #button.released.connect(released)
-
-            self.is_pressed = False
+            self.button.released.connect(self.released)
 
             self.button.setGeometry(x, y,
                             width, height)
@@ -257,34 +307,48 @@ class buttons():
             # Object styling handling
             self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
 
+            # Adding the widget to the layout.
+            self.layout.addWidget(self.button)
+
         def pressed(self):
             '''
             Changes the button icon on press.
             '''
-            if self.is_pressed is False:
-                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.down)))
-            else:
-                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.up)))
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.down)))
+        
+        def released(self):
+            '''
+            Changes the button icon on release.
+            '''
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.up)))
         
         def func(self):
-            if self.is_pressed is False:
-                widget = lego.Lego(self.main_window)
-                self.new_window = widget.GetWidget()
-                self.new_window.show()
+            global open_window
 
-                self.is_pressed = True
-            else:
-                self.new_window.deleteLater()
+            # Checks if there's an object in open_window, if there is then that means the other module is open; let's close it.
+            if open_window:
+                open_window.deleteLater()
+                open_window = None
 
-                self.is_pressed = False
+            self.new_window = lego.Lego(self.main_window)
+            self.new_window = self.new_window.GetWidget()
+            self.new_window.show()
+
+            # Assigning open_window to global variable
+            open_window = self.new_window
 
     class jamButton:
         def __init__(self,
                      main_window: QMainWindow,
-                     button: button):
+                     button_assets: button,
+                     layout: QHBoxLayout):
             self.main_window = main_window
             self.new_window = None
-            self.button_assets = button
+            self.button_assets = button_assets
+            self.layout = layout.layout
+            
+            # Assigns variable to see if window is open.
+            self.is_open = False
 
             # Dimensions
             width, height = (81, 32)
@@ -294,9 +358,7 @@ class buttons():
             self.button = QPushButton("", self.main_window)
             self.button.clicked.connect(self.func)
             self.button.pressed.connect(self.pressed)
-            #button.released.connect(released)
-
-            self.is_pressed = False
+            self.button.released.connect(self.released)
 
             self.button.setGeometry(x, y,
                             width, height)
@@ -308,23 +370,33 @@ class buttons():
             # Object styling handling
             self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
 
+            # Adding the widget to the layout.
+            self.layout.addWidget(self.button)
+
         def pressed(self):
             '''
             Changes the button icon on press.
             '''
-            if self.is_pressed is False:
-                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.down)))
-            else:
-                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.up)))
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.down)))
+        
+        def released(self):
+            '''
+            Changes the button icon on release.
+            '''
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.up)))
         
         def func(self):
-            if self.is_pressed is False:
-                widget = jam.Jam(self.main_window)
-                self.new_window = widget.GetWidget()
-                self.new_window.show()
+            global open_window
 
-                self.is_pressed = True
-            else:
-                self.new_window.deleteLater()
+            # Checks if there's an object in open_window, if there is then that means the other module is open; let's close it.
+            if open_window:
+                open_window.deleteLater()
+                open_window = None
 
-                self.is_pressed = False
+            self.new_window = jam.Jam(self.main_window)
+            self.new_window = self.new_window.GetWidget()
+            self.new_window.show()
+            self.is_open = True
+
+            # Assigning open_window to global variable
+            open_window = self.new_window
