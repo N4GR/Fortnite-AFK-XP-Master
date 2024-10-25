@@ -1,4 +1,4 @@
-from imports import *
+from config.imports import *
 
 class Screen:
     def __init__(self):
