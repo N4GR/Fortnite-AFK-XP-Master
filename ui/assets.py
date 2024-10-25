@@ -36,6 +36,7 @@ class panel(object):
     def __init__(self) -> None:
         """Panel object to open panel images."""
         self.ICON = self.openImage("icon")
+        self.BACKGROUND = self.openImage("background")
     
     def openImage(self,
                   name: str) -> ImageQt:

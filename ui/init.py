@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(QPixmap.fromImage(PANEL.ICON)))
 
         label = QLabel(self)
-        #label.setPixmap(QPixmap.fromImage(PANEL_ASSETS.background))
+        label.setPixmap(QPixmap.fromImage(PANEL.BACKGROUND))
         self.setCentralWidget(label)
 
         self.setStyleSheet(r"QMainWindow {background: transparent}")
