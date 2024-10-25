@@ -86,6 +86,7 @@ class ui():
         
         # Creates the main window, adding 20 as the movable area from top.
         self.main_window = MainWindow(moveable_y = 20)
+        self.main_window.setWindowFlags(self.main_window.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
 
         # Initialise buttons.
         self.buttons = buttons(main_window = self.main_window)
