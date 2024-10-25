@@ -1,19 +1,22 @@
 # Base imports
 from config.imports import *
 
-# Third party libraries
-from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QFileDialog, QErrorMessage, QMessageBox, QInputDialog, QApplication, QWidget, QScrollArea, QGridLayout, QToolButton, QVBoxLayout
-from PyQt6.QtGui import QPixmap, QIcon, QFontDatabase, QFont, QMovie
-from PyQt6.QtCore import QSize, Qt, QPoint, QThread
+from ui.imports import *
 
 # Local imports
 from config.obj import WINDOW, PROCESS
 from ui.assets import panel, button
 
+# Adding window modules
+from ui import lego
+from ui import jam
+
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, moveable_y: int):
         """QMainWindow subclass creating the main PyQt6 window thread."""
         super(MainWindow, self).__init__()
+
+        self.moveable_y = moveable_y
 
         PANEL = panel()
 
@@ -41,7 +44,7 @@ class MainWindow(QMainWindow):
             event (_type_): Event that's being issued.
         """
         if event.button() == Qt.MouseButton.LeftButton:
-            if event.pos().y() < 50:
+            if event.pos().y() < self.moveable_y:
                 self.offset = event.pos()
         else:
             super().mousePressEvent(event)
@@ -81,7 +84,7 @@ class ui():
         '''
         self.main_app = self.createApp()
         
-        self.main_window = MainWindow()
+        self.main_window = MainWindow(moveable_y = 20)
 
         # Initialise buttons.
         self.buttons = buttons(self.main_window)
@@ -116,83 +119,212 @@ class buttons():
 
         self.button = button()
 
-        self.exit = self.exitButton()
-        self.minimise = self.minimiseButton()
-        
-    def exitButton(self) -> QPushButton:
-        """Exit button that's created to handle the exitting of the program when it's clicked.
+        self.exit = self.exitButton(self.main_window, self.button)
+        self.minimise = self.minimiseButton(self.main_window, self.button)
+        self.lego = self.legoButton(self.main_window, self.button)
+        self.jam = self.jamButton(self.main_window, self.button)
 
-        Returns:
-            QPushButton: Button created for the exit button.
-        """
-        def pressed():
+    class exitButton:
+        def __init__(self,
+                    main_window: QMainWindow,
+                    button: button):
+            """Exit button that's created to handle the exitting of the program when it's clicked.
+
+            Returns:
+                QPushButton: Button created for the exit button.
+            """
+            self.main_window = main_window
+            self.new_window = None
+            self.button_assets = button
+
+            # Dimensions
+            self.width, self.height = (8, 8)
+            self.x, self.y = (275, 15)
+
+            # Creating button widget
+            self.button = QPushButton("", self.main_window)
+            self.button.clicked.connect(self.func)
+            self.button.pressed.connect(self.pressed)
+            self.button.released.connect(self.released)
+
+            self.button.setGeometry(self.x, self.y,
+                            self.width, self.height)
+
+            # Setting icon
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.exit.up)))
+            self.button.setIconSize(QSize(self.width, self.height))
+
+            # Object styling handling
+            self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+        
+        def pressed(self):
             '''
             Changes the button icon on press.
             '''
-            button.setIcon(QIcon(QPixmap.fromImage(self.button.exit.down)))
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.exit.down)))
 
-        def released():
+        def released(self):
             '''
             Changes the button icon on release.
             '''
-            button.setIcon(QIcon(QPixmap.fromImage(self.button.exit.up)))
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.exit.up)))
         
-        def func():
+        def func(self):
             """Function called when the exit button is clicked."""
             sys.exit()
 
-        # Creating button widget
-        button = QPushButton("", self.main_window)
-        button.clicked.connect(func)
-        button.pressed.connect(pressed)
-        button.released.connect(released)
-        button.setGeometry(285, 10,
-                           8, 8)
+    class minimiseButton:
+        def __init__(self,
+                    main_window: QMainWindow,
+                    button: button):
+            """Function to create and set the function for lego.
 
-        # Setting icon
-        button.setIcon(QIcon(QPixmap.fromImage(self.button.exit.up)))
-        button.setIconSize(QSize(8, 8))
+            Returns:
+                QPushButton: Object created for the button.
+            """
+            self.main_window = main_window
+            self.new_window = None
+            self.button_assets = button
 
-        # Object styling handling
-        button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+            # Dimensions
+            self.width, self.height = (8, 8)
+            self.x, self.y = (260, 15)
 
-        return button
-    
-    def minimiseButton(self) -> QPushButton:
-        """Function to create and set any function for minimising.
+            # Creating button widget
+            self.button = QPushButton("", self.main_window)
+            self.button.clicked.connect(self.func)
+            self.button.pressed.connect(self.pressed)
+            self.button.released.connect(self.released)
 
-        Returns:
-            QPushButton: Object created for the button.
-        """
-        def pressed():
+            self.button.setGeometry(self.x, self.y,
+                            self.width, self.height)
+
+            # Setting icon
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.minimise.up)))
+            self.button.setIconSize(QSize(self.width, self.height))
+
+            # Object styling handling
+            self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+
+        def pressed(self):
             '''
             Changes the button icon on press.
             '''
-            button.setIcon(QIcon(QPixmap.fromImage(self.button.minimise.down)))
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.minimise.down)))
 
-        def released():
+        def released(self):
             '''
             Changes the button icon on release.
             '''
-            button.setIcon(QIcon(QPixmap.fromImage(self.button.minimise.up)))
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.minimise.up)))
         
-        def func():
+        def func(self):
             """Functiopn called when the minimise button is pressed."""
             self.main_window.showMinimized()
 
-        # Creating button widget
-        button = QPushButton("", self.main_window)
-        button.clicked.connect(func)
-        button.pressed.connect(pressed)
-        button.released.connect(released)
-        button.setGeometry(270, 10,
-                           8, 8)
+    class legoButton:
+        def __init__(self,
+                    main_window: QMainWindow,
+                    button: button):
+            """Function to create and set the function for lego.
 
-        # Setting icon
-        button.setIcon(QIcon(QPixmap.fromImage(self.button.minimise.up)))
-        button.setIconSize(QSize(8, 8))
+            Returns:
+                QPushButton: Object created for the button.
+            """
+            self.main_window = main_window
+            self.new_window = None
+            self.button_assets = button
 
-        # Object styling handling
-        button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+            # Dimensions
+            width, height = (81, 32)
+            x, y = (10, 30)
 
-        return button
+            # Creating button widget
+            self.button = QPushButton("", self.main_window)
+            self.button.clicked.connect(self.func)
+            self.button.pressed.connect(self.pressed)
+            #button.released.connect(released)
+
+            self.is_pressed = False
+
+            self.button.setGeometry(x, y,
+                            width, height)
+
+            # Setting icon
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.up)))
+            self.button.setIconSize(QSize(width, height))
+
+            # Object styling handling
+            self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+
+        def pressed(self):
+            '''
+            Changes the button icon on press.
+            '''
+            if self.is_pressed is False:
+                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.down)))
+            else:
+                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.up)))
+        
+        def func(self):
+            if self.is_pressed is False:
+                widget = lego.Lego(self.main_window)
+                self.new_window = widget.GetWidget()
+                self.new_window.show()
+
+                self.is_pressed = True
+            else:
+                self.new_window.deleteLater()
+
+                self.is_pressed = False
+
+    class jamButton:
+        def __init__(self,
+                     main_window: QMainWindow,
+                     button: button):
+            self.main_window = main_window
+            self.new_window = None
+            self.button_assets = button
+
+            # Dimensions
+            width, height = (81, 32)
+            x, y = (100, 30)
+
+            # Creating button widget
+            self.button = QPushButton("", self.main_window)
+            self.button.clicked.connect(self.func)
+            self.button.pressed.connect(self.pressed)
+            #button.released.connect(released)
+
+            self.is_pressed = False
+
+            self.button.setGeometry(x, y,
+                            width, height)
+
+            # Setting icon
+            self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.up)))
+            self.button.setIconSize(QSize(width, height))
+
+            # Object styling handling
+            self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
+
+        def pressed(self):
+            '''
+            Changes the button icon on press.
+            '''
+            if self.is_pressed is False:
+                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.down)))
+            else:
+                self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.up)))
+        
+        def func(self):
+            if self.is_pressed is False:
+                widget = jam.Jam(self.main_window)
+                self.new_window = widget.GetWidget()
+                self.new_window.show()
+
+                self.is_pressed = True
+            else:
+                self.new_window.deleteLater()
+
+                self.is_pressed = False

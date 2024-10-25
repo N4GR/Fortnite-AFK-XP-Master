@@ -6,6 +6,8 @@ class button(object):
         """Button object containing ToggleButtons."""
         self.exit = self.ToggleButton("exit")
         self.minimise = self.ToggleButton("minimise")
+        self.lego = self.ToggleButton("lego")
+        self.jam = self.ToggleButton("jam")
 
     class ToggleButton(object):
         def __init__(self,
