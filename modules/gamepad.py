@@ -1,8 +1,6 @@
 from config.imports import *
 log = setup("MODULES.GAMEPAD")
 
-from config.imports import *
-
 class CONTROLLER:
     class DPAD:
         LEFT = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT
