@@ -13,3 +13,4 @@
 > Using scripts in Fortnite is against EPIC TOS - although nobody has been banned; I can't guarantee you won't.
 
 # Fortnite AFK Master
+<div align="center"><img src="https://github.com/N4GR/Fortnite-AFK-Master/blob/main/PSD/wallpaper.png" alt="Banner"></div>
