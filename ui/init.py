@@ -173,6 +173,9 @@ class buttons():
             Returns:
                 QPushButton: Button created for the exit button.
             """
+            self.button_name = "Exit"
+            log.info(f"Launching button: {self.button_name}")
+
             self.main_window = main_window
             self.new_window = None
             self.button_assets = button_assets
@@ -205,6 +208,8 @@ class buttons():
             '''
             Changes the button icon on press.
             '''
+            log.info(f"Button clicked: {self.button_name}")
+
             self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.exit.down)))
 
         def released(self):
@@ -227,6 +232,9 @@ class buttons():
             Returns:
                 QPushButton: Object created for the button.
             """
+            self.button_name = "Minimise"
+            log.info(f"Launching button: {self.button_name}")
+
             self.main_window = main_window
             self.new_window = None
             self.button_assets = button_assets
@@ -259,6 +267,8 @@ class buttons():
             '''
             Changes the button icon on press.
             '''
+            log.info(f"Button clicked: {self.button_name}")
+
             self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.minimise.down)))
 
         def released(self):
@@ -281,6 +291,9 @@ class buttons():
             Returns:
                 QPushButton: Object created for the button.
             """
+            self.button_name = "Lego"
+            log.info(f"Launching button: {self.button_name}")
+
             self.main_window = main_window
             self.new_window = None
             self.button_assets = button_assets
@@ -316,6 +329,8 @@ class buttons():
             '''
             Changes the button icon on press.
             '''
+            log.info(f"Button clicked: {self.button_name}")
+
             self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.down)))
         
         def released(self):
@@ -344,6 +359,9 @@ class buttons():
                      main_window: QMainWindow,
                      button_assets: button,
                      layout: QHBoxLayout):
+            self.button_name = "Jam"
+            log.info(f"Launching button: {self.button_name}")
+
             self.main_window = main_window
             self.new_window = None
             self.button_assets = button_assets
@@ -379,6 +397,7 @@ class buttons():
             '''
             Changes the button icon on press.
             '''
+            log.info(f"Button clicked: {self.button_name}")
             self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.down)))
         
         def released(self):

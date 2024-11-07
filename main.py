@@ -12,9 +12,15 @@ class GameModes:
 
     def Lego(self):
         while True:
-            self.pad.Joystick(hold_time = 1, x = round(uniform(-1, 1), 1), y = round(uniform(-1, 1), 1))
+            x = round(uniform(-1, 1), 1)
+            y = round(uniform(-1, 1), 1)
+
+            log.info(f"Moving joystick: x[{x}], y[{y}]")
+            self.pad.Joystick(hold_time = 1, x = x, y = y)
 
 if __name__ == "__main__":
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(PROCESS.ID)
+
+    log.info("Launching...")
 
     ui.init.ui()

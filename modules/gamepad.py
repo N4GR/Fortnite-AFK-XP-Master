@@ -1,5 +1,5 @@
 from config.imports import *
-log = setup("UI.ASSETS")
+log = setup("MODULES.GAMEPAD")
 
 from config.imports import *
 
@@ -25,11 +25,18 @@ class GamePad:
         self.Wake()
 
         while not stop_event.is_set():
-            print("Doing joystick stuff.")
-            self.Joystick(hold_time = randint(1, 10), x = round(uniform(-1, 1), 1), y = round(uniform(-1, 1), 1))
+            x = round(uniform(-1, 1), 1)
+            y = round(uniform(-1, 1), 1)
+
+            log.info(f"Moving joystick: x[{x}], y[{y}]")
+            self.Joystick(hold_time = randint(1, 10), x = x, y = y)
+        
+        log.info("Stop event detected, exitting gamepad.")
 
     def Wake(self):
         """Function to press a random button to wake up the device and detect it with game."""
+
+        log.info("Waking up controller.")
 
         self.gamepad.press_button(button = CONTROLLER.A)
         self.gamepad.update()

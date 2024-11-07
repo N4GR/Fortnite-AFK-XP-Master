@@ -13,6 +13,7 @@ from ui.assets import button
 class InfoDialog(QDialog):
     def __init__(self, message: str, parent = None):
         super().__init__(parent)
+        log.info("Launching information diolog.")
         self.setWindowTitle("Information")
         layout = QVBoxLayout(self)
 
@@ -28,6 +29,8 @@ class Lego:
                  main_window: QMainWindow,
                  size: tuple[int] = (280, 210),
                  position: tuple[int] = (10, 75)):
+        log.info("Launching UI.")
+
         # Setting arguments to variables.
         self.main_window = main_window
         self.width, self.height = size
@@ -195,7 +198,8 @@ class Functions:
 
         # Do this on the first run.
         if is_pressed is False:
-            print("Starting Lego Fortnite thread.")
+            log.info("Launching lego fortnite thread.")
+
             is_pressed = True
             seconds_elapsed = 0
 
@@ -227,10 +231,12 @@ class Functions:
             timer.stop()
             label.deleteLater()
 
-            print("Stopping Lego Fortnite thread.")
+            log.info("Stopping lego fortnite thread.")
             is_pressed = False
 
             stop_event.set()
+
+            log.info("Lego fortnite thread stopped.")
 
             # Setting the start button to pause.
             button.setIcon(QIcon(QPixmap.fromImage(button_assets.start.up)))

@@ -22,6 +22,8 @@ class Jam:
                  main_window: QMainWindow,
                  size: tuple[int] = (280, 210),
                  position: tuple[int] = (10, 75)):
+        log.info("Launching UI.")
+        
         # Setting arguments to variables.
         self.main_window = main_window
         self.width, self.height = size

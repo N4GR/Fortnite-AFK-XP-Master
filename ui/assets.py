@@ -34,6 +34,8 @@ class button(object):
             Args:
                 name (str): Name of the button.
             """
+            log.info(f"Creating button assets: {name}")
+
             self.up = self.openImage(name, "up")
             self.down = self.openImage(name, "down")
         
@@ -49,7 +51,10 @@ class button(object):
             Returns:
                 ImageQt: ImageQt object for PyQt6
             """
-            return ImageQt(Image.open(resource_path(f"assets/{name}_{type}.png")))
+            image_path = f"assets/{name}_{type}.png"
+
+            log.info(f"Opening: {image_path}")
+            return ImageQt(Image.open(resource_path(image_path)))
 
 class panel(object):
     def __init__(self) -> None:
@@ -67,4 +72,7 @@ class panel(object):
         Returns:
             Image.Image: ImageQt object for PyQt6. 
         """
-        return ImageQt(Image.open(resource_path(f"assets/{name}.png")))
+        image_path = f"assets/{name}.png"
+
+        log.info(f"Opening: {image_path}")
+        return ImageQt(Image.open(resource_path(image_path)))
