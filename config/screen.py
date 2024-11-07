@@ -1,4 +1,7 @@
 from config.imports import *
+log = setup("CONFIG.SCREEN")
+
+from config.imports import *
 
 class Screen:
     def __init__(self):

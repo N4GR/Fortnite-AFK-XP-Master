@@ -1,3 +1,6 @@
+from config.imports import *
+log = setup("UI.JAM")
+
 from ui.imports import *
 from ui.assets import button
 

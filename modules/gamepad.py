@@ -1,4 +1,7 @@
 from config.imports import *
+log = setup("UI.ASSETS")
+
+from config.imports import *
 
 class CONTROLLER:
     class DPAD:

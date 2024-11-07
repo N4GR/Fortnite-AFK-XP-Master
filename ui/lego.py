@@ -1,3 +1,6 @@
+from config.imports import *
+log = setup("UI.LEGO")
+
 # Python imports.
 from random import uniform, randint
 import threading

@@ -1,4 +1,5 @@
 from config.imports import *
+log = setup("MAIN")
 
 # Local imports.
 from modules.gamepad import GamePad, CONTROLLER

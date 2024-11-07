@@ -1,5 +1,19 @@
+from config.imports import *
+log = setup("UI.ASSETS")
+
 from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageEnhance, ImageChops
 from PIL.ImageQt import ImageQt
+
+def resource_path(relative_path):
+    """ Get the absolute path to the resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores the path in _MEIPASS
+        base_path = sys._MEIPASS
+    except AttributeError:
+        # If not bundled, use the original path
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class button(object):
     def __init__(self) -> None:
@@ -35,7 +49,7 @@ class button(object):
             Returns:
                 ImageQt: ImageQt object for PyQt6
             """
-            return ImageQt(Image.open(f"assets/{name}_{type}.png"))
+            return ImageQt(Image.open(resource_path(f"assets/{name}_{type}.png")))
 
 class panel(object):
     def __init__(self) -> None:
@@ -53,4 +67,4 @@ class panel(object):
         Returns:
             Image.Image: ImageQt object for PyQt6. 
         """
-        return ImageQt(Image.open(f"assets/{name}.png"))
+        return ImageQt(Image.open(resource_path(f"assets/{name}.png")))

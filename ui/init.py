@@ -1,5 +1,6 @@
 # Base imports
 from config.imports import *
+log = setup("UI.INIT")
 
 from ui.imports import *
 
