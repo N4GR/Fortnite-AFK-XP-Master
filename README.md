@@ -12,5 +12,18 @@
 > [!WARNING]
 > Using scripts in Fortnite is against EPIC TOS - although nobody has been banned; I can't guarantee you won't.
 
-# Fortnite AFK Master
 <div align="center"><img src="https://github.com/N4GR/Fortnite-AFK-Master/blob/main/PSD/wallpaper.png" alt="Banner"></div>
+
+# Fortnite AFK XP Master
+Fortnire AFK XP Master is a UI tool designed to make gaining XP in fortnite easier - for those that don't have the time to spend playing the game but still want to get the items with each battle pass. The installer is packaged with the main AFK Master tool and the driver ViGEmBus which is used as a virtual game controller to operate your game from the script; so, you'd be able to continue using your computer while the script is running in the background.
+
+# Download
+Downloading the tool is easy, just download and run the latest installer EXE and everything should be good to go! [Download](https://github.com/N4GR/Fortnite-AFK-XP-Master/releases/latest)
+
+# Usage
+- The tool cat be run from the .exe where you installed it to or can be located from the task menu by searching up Fortnite AFK XP Master.
+- Once opened, click the tab of the corresponding gamemode you want to use to gain AFK XP followed by the play button, click into the game and everything should be working automatically.
+- You can now either stay focused on the game or tab out of it to use your computer elsewhere.
+
+# License
+[Fortnite AFK Master](https://github.com/N4GR/Fortnite-AFK-XP-Master) © 2024 by [N4GR](https://github.com/N4GR) is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0)
