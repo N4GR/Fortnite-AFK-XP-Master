@@ -20,12 +20,14 @@ class InfoDialog(QDialog):
 class Jam:
     def __init__(self,
                  main_window: QMainWindow,
+                 lego_button: QPushButton,
                  size: tuple[int] = (280, 210),
                  position: tuple[int] = (10, 75)):
         log.info("Launching UI.")
         
         # Setting arguments to variables.
         self.main_window = main_window
+        self.lego_button = lego_button
         self.width, self.height = size
         self.x, self.y = position
 

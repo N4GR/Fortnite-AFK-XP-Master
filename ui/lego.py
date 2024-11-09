@@ -27,12 +27,16 @@ class InfoDialog(QDialog):
 class Lego:
     def __init__(self,
                  main_window: QMainWindow,
+                 jam_button: QPushButton,
+                 lego_button: QPushButton,
                  size: tuple[int] = (280, 210),
                  position: tuple[int] = (10, 75)):
         log.info("Launching UI.")
 
         # Setting arguments to variables.
         self.main_window = main_window
+        self.jam_button = jam_button
+        self.lego_button = lego_button
         self.width, self.height = size
         self.x, self.y = position
 
@@ -47,7 +51,7 @@ class Lego:
         #self.layout.addWidget(self.label)
 
         # Adding buttons.
-        self.buttons = buttons(self.main_window, self.layout, self.widget)
+        self.buttons = buttons(self.main_window, self.jam_button, self.lego_button, self.layout, self.widget)
 
         # Setting layout to widget.
         self.widget.setLayout(self.layout)
@@ -66,18 +70,24 @@ class Lego:
 class buttons():
     def __init__(self,
                  main_window: QMainWindow,
+                 jam_button: QPushButton,
+                 lego_button: QPushButton,
                  layout: QVBoxLayout,
                  widget: QWidget) -> None:
         # Assigning variables from arguments.
         self.main_window = main_window
+        self.jam_button = jam_button
+        self.lego_button = lego_button
         self.layout = layout
         self.widget = widget
         self.button_assets = button()
 
         self.start_button = self.startButton(main_window = self.main_window,
-                                           button_assets = self.button_assets,
-                                           layout = self.layout,
-                                           widget = self.widget)
+                                             jam_button = self.jam_button,
+                                             lego_button = self.lego_button,
+                                             button_assets = self.button_assets,
+                                             layout = self.layout,
+                                             widget = self.widget)
 
         self.help_button = self.helpButton(main_window = self.main_window,
                                            button_assets = self.button_assets,
@@ -87,6 +97,8 @@ class buttons():
     class startButton:
         def __init__(self,
                      main_window: QMainWindow,
+                     jam_button: QPushButton,
+                     lego_button: QPushButton,
                      button_assets: button,
                      layout: QVBoxLayout,
                      widget: QWidget):
@@ -95,6 +107,8 @@ class buttons():
             self.button_assets = button_assets
             self.layout = layout
             self.widget = widget
+            self.jam_button = jam_button
+            self.lego_button = lego_button
 
             # Setting Dimensions.
             self.width, self.height = (100, 64)
@@ -102,7 +116,7 @@ class buttons():
 
             # Creating button widget.
             self.button = QPushButton("", self.main_window)
-            self.button.clicked.connect(lambda: Functions.start(self.main_window, self.button, self.button_assets))
+            self.button.clicked.connect(lambda: Functions.start(self.main_window, self.button, self.button_assets, self.jam_button, self.lego_button))
 
             # Assigning dimensions.
             self.button.setGeometry(self.x, self.y,
@@ -173,7 +187,7 @@ class Functions:
                             parent = main_window)
         dialog.exec()
     
-    def start(main_window: QMainWindow, button: QPushButton, button_assets):
+    def start(main_window: QMainWindow, button: QPushButton, button_assets, jam_button: QPushButton, lego_button: QPushButton):
         global is_pressed
         global stop_event
         global thread
@@ -199,6 +213,14 @@ class Functions:
         # Do this on the first run.
         if is_pressed is False:
             log.info("Launching lego fortnite thread.")
+
+            # Disabling jam button
+            log.info("Disabling jam button.")
+            jam_button.setDisabled(True)
+
+            # Disabling Lego button
+            log.info("Disabling lego button.")
+            lego_button.setDisabled(True)
 
             is_pressed = True
             seconds_elapsed = 0
@@ -233,6 +255,14 @@ class Functions:
 
             log.info("Stopping lego fortnite thread.")
             is_pressed = False
+
+            # Enabling jam button again.
+            log.info("Enabling jam button.")
+            jam_button.setEnabled(True)
+
+            # Enabling lego button
+            log.info("Enabling lego button.")
+            lego_button.setEnabled(True)
 
             stop_event.set()
 

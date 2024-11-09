@@ -114,6 +114,8 @@ class ui():
 
 # Variable for assigning the current open window to.
 open_window : QWidget = None
+jam_button = None
+lego_button = None
 class buttons():
     def __init__(self,
                  main_window: MainWindow) -> None:
@@ -123,6 +125,10 @@ class buttons():
             exit [QPushButton]: Exit push button of the main UI.
             minimise [QPushButton]: Minimise push button of the main UI.
         '''
+        # Adding globals
+        global jam_button
+        global lego_button
+
         # Assigning default arguments to variables.
         self.main_window = main_window
 
@@ -149,6 +155,9 @@ class buttons():
         self.jam = self.jamButton(self.main_window,
                                   self.button_assets,
                                   self.modulelayout)
+
+        jam_button = self.jam
+        lego_button = self.lego
     
     class ButtonLayout:
         def __init__(self, main_window: QMainWindow, position: tuple[int], size: tuple[int]):
@@ -340,6 +349,7 @@ class buttons():
             self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.lego.up)))
         
         def func(self):
+            global jam_button
             global open_window
 
             # Checks if there's an object in open_window, if there is then that means the other module is open; let's close it.
@@ -347,7 +357,7 @@ class buttons():
                 open_window.deleteLater()
                 open_window = None
 
-            self.new_window = lego.Lego(self.main_window)
+            self.new_window = lego.Lego(self.main_window, jam_button.button, self.button)
             self.new_window = self.new_window.GetWidget()
             self.new_window.show()
 
@@ -407,6 +417,7 @@ class buttons():
             self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.up)))
         
         def func(self):
+            global lego_button
             global open_window
 
             # Checks if there's an object in open_window, if there is then that means the other module is open; let's close it.
@@ -414,7 +425,7 @@ class buttons():
                 open_window.deleteLater()
                 open_window = None
 
-            self.new_window = jam.Jam(self.main_window)
+            self.new_window = jam.Jam(self.main_window, lego_button.button)
             self.new_window = self.new_window.GetWidget()
             self.new_window.show()
             self.is_open = True
