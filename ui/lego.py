@@ -56,6 +56,11 @@ class Lego:
 
     def GetWidget(self):
         return self.widget
+    
+    def get_stop_event(self):
+        global stop_event
+        
+        return stop_event
 
 class buttons():
     def __init__(self,

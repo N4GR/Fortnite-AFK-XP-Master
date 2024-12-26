@@ -66,6 +66,11 @@ class Jam:
 
     def GetWidget(self):
         return self.widget
+    
+    def get_stop_event(self):
+        global stop_event
+        
+        return stop_event
 
 class buttons():
     def __init__(self,
@@ -145,7 +150,6 @@ class buttons():
             self.button.setStyleSheet("QPushButton {background-color: transparent; border: 0px}")
 
             self.layout.addWidget(self.button, alignment = Qt.AlignmentFlag.AlignCenter)
-
 
     class helpButton:
         def __init__(self, main_window: QMainWindow, button_assets: button, layout: QVBoxLayout):

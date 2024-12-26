@@ -110,6 +110,7 @@ class ui():
     
     def createExit(self):
         """A function that exits the main application."""
+        # Get any active stop event.
         sys.exit(self.main_app.exec())
 
 # Variable for assigning the current open window to.
@@ -229,6 +230,24 @@ class buttons():
         
         def func(self):
             """Function called when the exit button is clicked."""
+            global jam_button
+            global lego_button
+            
+            ## stop_event returns Attribute error if the process isn't running, this is ok! - This is here just so that the program can close with or without a thread running.
+            try:
+                stop_event = jam_button.get_stop_event()
+                stop_event.set()
+                
+            except AttributeError:
+                pass
+            
+            try:
+                stop_event = lego_button.get_stop_event()
+                stop_event.set()
+                
+            except AttributeError:
+                pass
+            
             sys.exit()
 
     class minimiseButton:
@@ -358,11 +377,16 @@ class buttons():
                 open_window = None
 
             self.new_window = lego.Lego(self.main_window, jam_button.button, self.button)
-            self.new_window = self.new_window.GetWidget()
-            self.new_window.show()
+            self.new_window_widget = self.new_window.GetWidget()
+            self.new_window_widget.show()
 
             # Assigning open_window to global variable
-            open_window = self.new_window
+            open_window = self.new_window_widget
+        
+        def get_stop_event(self):
+            stop_event = self.new_window.get_stop_event()
+            
+            return stop_event
 
     class jamButton:
         def __init__(self,
@@ -432,8 +456,13 @@ class buttons():
                 open_window = None
 
             self.new_window = jam.Jam(self.main_window, lego_button.button, self.button)
-            self.new_window = self.new_window.GetWidget()
-            self.new_window.show()
+            self.new_window_widget = self.new_window.GetWidget()
+            self.new_window_widget.show()
 
             # Assigning open_window to global variable
-            open_window = self.new_window
+            open_window = self.new_window_widget
+        
+        def get_stop_event(self):
+            stop_event = self.new_window.get_stop_event()
+            
+            return stop_event
