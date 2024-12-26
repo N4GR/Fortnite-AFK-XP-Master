@@ -28,6 +28,8 @@ class GamePad:
 
             log.info(f"Moving joystick: x[{x}], y[{y}]")
             self.Joystick(hold_time = randint(1, 10), x = x, y = y)
+            # Wait for joysticks to do their actions.
+            self.random_sleep(stop_event)
         
         log.info("Stop event detected, exitting gamepad.")
 
@@ -44,6 +46,27 @@ class GamePad:
         time.sleep(0.5)
 
     def Press(self, button: CONTROLLER):
+    def random_sleep(
+            self,
+            stop_event: threading.Event,
+            random_range: tuple[int, int] = (1, 10)
+        ):
+        """Function that will sleep for x amount of seconds, checking each second if the stop event is set or not.
+
+        Args:
+            stop_event (threading.Event): Threading event that will be set if the program closes.
+            random_range (tuple[int, int], optional): A range of x -> x that the program will randomly select a number from. Defaults to (1, 10).
+        """
+        a, b = random_range
+        sleep_time = randint(a, b)
+        
+        log.info(f"Gamepad sleeping for {sleep_time} seconds.")
+        
+        for x in range(sleep_time):
+            if stop_event.is_set():
+                break
+            else:
+                time.sleep(1)
         """Function that takes a button from CONTROLLER class to press.
 
         Args:
