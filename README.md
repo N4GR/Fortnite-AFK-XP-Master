@@ -15,7 +15,7 @@
 <div align = "center"><img src = "https://github.com/N4GR/Fortnite-AFK-XP-Master/blob/main/.github/assets/main_page.png?raw=true" alt = "Banner"></div>
 
 # Fortnite AFK XP Master
-Fortnire AFK XP Master is a UI tool designed to make gaining XP in fortnite easier - for those that don't have the time to spend playing the game but still want to get the items with each battle pass. The installer is packaged with the main AFK Master tool and the driver ViGEmBus which is used as a virtual game controller to operate your game from the script; so, you'd be able to continue using your computer while the script is running in the background. However, doing it this way comes with limitations - you won't be able to play other games while the script is running as the game may interpret gamepad inputs intended for them; the program isn't attached to Fortnite in any way.
+Fortnite AFK XP Master is a UI tool designed to make gaining XP in fortnite easier - for those that don't have the time to spend playing the game but still want to get the items with each battle pass. The installer is packaged with the main AFK Master tool and the driver ViGEmBus which is used as a virtual game controller to operate your game from the script; so, you'd be able to continue using your computer while the script is running in the background. However, doing it this way comes with limitations - you won't be able to play other games while the script is running as the game may interpret gamepad inputs intended for them; the program isn't attached to Fortnite in any way.
 
 <div align = "center"><img src = "https://i.imgur.com/ewjEB3L.png" alt = Banner2></div>
 
