@@ -1,8 +1,7 @@
 from config.imports import *
 log = setup("UI.ASSETS")
 
-from PIL import Image, ImageOps, ImageDraw, ImageFont, ImageEnhance, ImageChops
-from PIL.ImageQt import ImageQt
+from ui.imports import *
 
 def resource_path(relative_path):
     """ Get the absolute path to the resource, works for dev and for PyInstaller """
