@@ -162,3 +162,5 @@ cython_debug/
 dev
 output
 PSD
+logs/
+.vscode/
