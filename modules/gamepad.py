@@ -1,17 +1,30 @@
 from config.imports import *
 log = setup("MODULES.GAMEPAD")
 
-class CONTROLLER:
-    class DPAD:
-        LEFT = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT
-        RIGHT = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT
-        UP = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_UP
-        DOWN = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_DOWN
+class Controller:
+    def __init__(self, gamepad: vgamepad.VX360Gamepad):
+        self.dpad = self.DPad()
+        self.face = self.Face()
+        self.joystick = self.JoyStick(gamepad)
     
-    A = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_A
-    X = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_X
-    Y = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_Y
-    B = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_B
+    class DPad:
+        def __init__(self):
+            self.left = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT
+            self.right = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT
+            self.up = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_UP
+            self.down = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_DOWN
+    
+    class Face:
+        def __init__(self):
+            self.a = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_A
+            self.x = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_X
+            self.y = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_Y
+            self.b = vgamepad.XUSB_BUTTON.XUSB_GAMEPAD_B
+    
+    class JoyStick:
+        def __init__(self, gamepad: vgamepad.VX360Gamepad):
+            self.left = gamepad.left_joystick_float
+            self.right = gamepad.right_joystick_float
 
 
 class GamePad:
