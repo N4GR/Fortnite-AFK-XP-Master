@@ -6,7 +6,7 @@ from random import uniform, randint
 import threading
 
 # Local imports.
-from modules.gamepad import GamePad, CONTROLLER
+from modules.gamepad import GamePad
 from ui.imports import *
 from ui.assets import button
 
@@ -177,7 +177,14 @@ class Functions:
                             parent = main_window)
         dialog.exec()
     
-    def start(main_window: QMainWindow, button: QPushButton, button_assets, jam_button: QPushButton, lego_button: QPushButton):
+    def start(
+            main_window: QMainWindow,
+            button: QPushButton,
+            button_assets: button,
+            jam_button: QPushButton,
+            lego_button: QPushButton
+        ):
+        
         global is_pressed
         global stop_event
         global thread
@@ -236,7 +243,7 @@ class Functions:
             stop_event = threading.Event()
 
             # Start the thread.
-            thread = threading.Thread(target = pad.Run, args = (stop_event,))
+            thread = threading.Thread(target = pad.run_lego, args = (stop_event,))
             thread.start()
 
         else:

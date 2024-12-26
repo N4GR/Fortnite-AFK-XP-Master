@@ -366,9 +366,14 @@ class buttons():
 
     class jamButton:
         def __init__(self,
-                     main_window: QMainWindow,
-                     button_assets: button,
-                     layout: QHBoxLayout):
+                    main_window: QMainWindow,
+                    button_assets: button,
+                    layout: QHBoxLayout):
+            """Function to create and set the function for lego.
+
+            Returns:
+                QPushButton: Object created for the button.
+            """
             self.button_name = "Jam"
             log.info(f"Launching button: {self.button_name}")
 
@@ -376,13 +381,13 @@ class buttons():
             self.new_window = None
             self.button_assets = button_assets
             self.layout = layout.layout
-            
+
             # Assigns variable to see if window is open.
             self.is_open = False
 
             # Dimensions
             width, height = (81, 32)
-            x, y = (100, 30)
+            x, y = (10, 30)
 
             # Creating button widget
             self.button = QPushButton("", self.main_window)
@@ -408,6 +413,7 @@ class buttons():
             Changes the button icon on press.
             '''
             log.info(f"Button clicked: {self.button_name}")
+
             self.button.setIcon(QIcon(QPixmap.fromImage(self.button_assets.jam.down)))
         
         def released(self):
@@ -425,10 +431,9 @@ class buttons():
                 open_window.deleteLater()
                 open_window = None
 
-            self.new_window = jam.Jam(self.main_window, lego_button.button)
+            self.new_window = jam.Jam(self.main_window, lego_button.button, self.button)
             self.new_window = self.new_window.GetWidget()
             self.new_window.show()
-            self.is_open = True
 
             # Assigning open_window to global variable
             open_window = self.new_window
