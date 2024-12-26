@@ -1,6 +1,9 @@
 # Python imports.
 import time
-from random import uniform, randint
+from random import (
+    uniform, randint,
+    choice
+)
 import ctypes
 import sys
 import threading
