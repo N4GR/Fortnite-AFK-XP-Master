@@ -12,10 +12,10 @@
 > [!WARNING]
 > Using scripts in Fortnite is against EPIC TOS - although nobody has been banned; I can't guarantee you won't.
 
-<div align = "center"><img src = "https://i.imgur.com/JKMignG.png" alt = "Banner"></div>
+<div align = "center"><img src = "https://github.com/N4GR/Fortnite-AFK-XP-Master/blob/main/.github/assets/main_page.png?raw=true" alt = "Banner"></div>
 
 # Fortnite AFK XP Master
-Fortnire AFK XP Master is a UI tool designed to make gaining XP in fortnite easier - for those that don't have the time to spend playing the game but still want to get the items with each battle pass. The installer is packaged with the main AFK Master tool and the driver ViGEmBus which is used as a virtual game controller to operate your game from the script; so, you'd be able to continue using your computer while the script is running in the background.
+Fortnire AFK XP Master is a UI tool designed to make gaining XP in fortnite easier - for those that don't have the time to spend playing the game but still want to get the items with each battle pass. The installer is packaged with the main AFK Master tool and the driver ViGEmBus which is used as a virtual game controller to operate your game from the script; so, you'd be able to continue using your computer while the script is running in the background. However, doing it this way comes with limitations - you won't be able to play other games while the script is running as the game may interpret gamepad inputs intended for them; the program isn't attached to Fortnite in any way.
 
 <div align = "center"><img src = "https://i.imgur.com/ewjEB3L.png" alt = Banner2></div>
 
@@ -28,4 +28,4 @@ Downloading the tool is easy, just download and run the latest installer EXE and
 - You can now either stay focused on the game or tab out of it to use your computer elsewhere.
 
 # License
-[Fortnite AFK Master](https://github.com/N4GR/Fortnite-AFK-XP-Master) © 2024 by [N4GR](https://github.com/N4GR) is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0)
+[Fortnite AFK Master](https://github.com/N4GR/Fortnite-AFK-XP-Master) © 2024-Present by [N4GR](https://github.com/N4GR) is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0)
