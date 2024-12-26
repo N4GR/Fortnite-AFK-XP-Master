@@ -4,18 +4,9 @@ log = setup("UI.JAM")
 from ui.imports import *
 from ui.assets import button
 
-class InfoDialog(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle('Information')
-        layout = QVBoxLayout(self)
-
-        message_label = QLabel('This is an informational popup!', self)
-        layout.addWidget(message_label)
-
-        button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok, self)
-        button_box.accepted.connect(self.accept)
-        layout.addWidget(button_box)
+from ui.obj import (
+    InfoDialog
+)
 
 class Jam:
     def __init__(self,
