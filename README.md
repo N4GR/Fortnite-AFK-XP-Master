@@ -23,7 +23,7 @@ Fortnite AFK XP Master is a UI tool designed to make gaining XP in fortnite easi
 Downloading the tool is easy, just download and run the latest installer EXE and everything should be good to go! [Download](https://github.com/N4GR/Fortnite-AFK-XP-Master/releases/latest)
 
 # Usage
-- The tool cat be run from the .exe where you installed it to or can be located from the task menu by searching up Fortnite AFK XP Master.
+- The tool can be run from the .exe where you installed it to or can be located from the task menu by searching up Fortnite AFK XP Master.
 - Once opened, click the tab of the corresponding gamemode you want to use to gain AFK XP followed by the play button, click into the game and everything should be working automatically.
 - You can now either stay focused on the game or tab out of it to use your computer elsewhere.
 
