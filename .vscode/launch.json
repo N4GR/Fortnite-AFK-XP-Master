@@ -1,12 +1,12 @@
 {
     "configurations": [
         {
-            "name": "Python: run main.py",
+            "name": "Python: run init.py",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/main.py",
+            "program": "${workspaceFolder}/init.py",
             "console": "integratedTerminal",
-            "args": ["--debug"]
+            "args": []
         }
     ]
 }
