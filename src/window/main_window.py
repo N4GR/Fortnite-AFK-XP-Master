@@ -2,21 +2,31 @@ from src.window.imports import *
 
 # Local imports.
 from src.window.top_bar import TopBar
+from src.shared.config import WindowConfig
 
 class MainWindow(QWidget):
-    def __init__(self):
+    def __init__(
+            self,
+            config: WindowConfig
+    ) -> None:
         super().__init__()
         self._add_design()
         self.oldPos = None
         
+        self.config = config # Getting MainWindow configs.
+        
         # Adding background to MainWindow.
         self.background = Background(
             parent = self,
-            main_window = self
+            main_window = self,
+            configs = self.config.main_window.background
         )
 
         # Adding modules to the MainWindow.
-        self.topbar = TopBar(self)
+        self.topbar = TopBar(
+            main_window = self,
+            config = self.config.top_bar
+        )
         
         # Handing the layout of the MainWindow..
         self.layout_widgets = self._create_layout_widgets()
@@ -38,7 +48,7 @@ class MainWindow(QWidget):
         self.setMinimumSize(200, 150) # Minimum size the window can go to.
         
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        #self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
     
     def _create_layout_widgets(self) -> list[dict[QWidget, Qt.AlignmentFlag]]:
         """A function containing a manually created list of dictionaries, each having their own widget and alignment flag set to parse to the layout.
@@ -194,15 +204,22 @@ class Background(QWidget):
         def __init__(
                 self,
                 parent: QWidget,
-                main_window: QWidget
+                main_window: QWidget,
+                configs: WindowConfig.MainWindow.Background
         ) -> None:
             """Background QWidget that will fill the background of the TopBar with a solid colour."""
             super().__init__(parent)
             self.main_window = main_window
+            self.configs = configs
             
             self._add_design()
             
-            self.background_label = self._create_background_label()
+            self.background_label = self.BackgroundLabel(
+                parent = self,
+                main_window = self.main_window,
+                configs = self.configs
+            )
+            
             self.main_layout = self._create_layout(widgets = [self.background_label])
             
             self.setLayout(self.main_layout)
@@ -212,21 +229,9 @@ class Background(QWidget):
             self.move(0, 0) # Move to 0Y 0X coordinate.
             self.resize_to_main_window() # Resize to fit main window width.
         
-        def _create_background_label(self) -> QLabel:
-            """A function to create the background label.
-
-            Returns:
-                QLabel: Label created from the function.
-            """
-            label = QLabel()
-            label.setStyleSheet("""
-                QLabel {
-                    background-color: black;
-                    border-radius: 20px   
-                }
-            """) # Setting the colour with a curved border.
-            
-            return label
+        def resizeEvent(self, event):
+            # Update the QPixmap when the 
+            super().resizeEvent(event)
 
         def _create_layout(
                 self,
@@ -251,3 +256,62 @@ class Background(QWidget):
         
         def resize_to_main_window(self):
             self.setGeometry(0, 0, self.main_window.width(), self.main_window.height())
+        
+        class BackgroundLabel(QLabel):
+            def __init__(
+                    self,
+                    parent: QWidget,
+                    main_window: QWidget,
+                    configs: WindowConfig.MainWindow.Background
+            ) -> None:
+                super().__init__(parent)
+                self.main_window = main_window
+                self.configs = configs
+                
+                self._add_design()
+            
+            def _add_design(self):
+                self.setGeometry(0, 0, self.main_window.width(), self.main_window.height())
+                self._update_pixmap()
+            
+            def _update_pixmap(self):
+                pixmap = QPixmap(self.size())
+                pixmap.fill(QColor(0, 0, 0, 0)) # Fill the pixmap with transparency.
+                
+                # Create the QGradient.
+                gradient = QRadialGradient(self.width() / 2, self.height() / 2, self.width() / 2)
+                
+                # Adding colour steps to the gradient.
+                gradient.setColorAt(0, self.configs.outer_colour)
+                gradient.setColorAt(1, self.configs.inner_colour)
+                
+                # Begin the painter to add the gradient to pixmap.
+                painter = QPainter(pixmap)
+                painter.setRenderHint(QPainter.RenderHint.Antialiasing) # Add anti-aliasing to the painter.
+                
+                # Creating the QPainterPath for a rounded rectangle.
+                path = QPainterPath()
+                path.addRoundedRect(pixmap.rect(), 20, 20) # Adding rounded corners (20 px radius)
+                
+                # Clipping the painting area to the rounded rectangle.
+                painter.setClipPath(path)
+                
+                # Filling the pixmap with the gradient.
+                painter.fillRect(pixmap.rect(), gradient)
+                painter.end()
+                
+                # Setting the pixmap to the label.
+                self.setPixmap(pixmap)
+            
+            def resizeEvent(
+                    self,
+                    event
+            ) -> None:
+                """A function that will activate whenever the label is being resized.
+
+                Args:
+                    event (QEvent): event called when the action happens.
+                """
+                self._update_pixmap()
+                
+                return super().resizeEvent(event)

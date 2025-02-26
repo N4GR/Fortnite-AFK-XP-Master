@@ -11,3 +11,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import (
     QRect, Qt, QPoint, QEvent, QSize
 )
+
+from PySide6.QtGui import (
+    QRadialGradient, QPainter, QColor,
+    QPixmap, QPainterPath
+)

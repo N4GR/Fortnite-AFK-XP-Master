@@ -1,0 +1,8 @@
+MainWindow: # Main Window Configuration.
+  Background:
+    InnerColour: [1, 42, 115] # RGB value of the inner radial.
+    OuterColour: [2, 97, 171] # RGB value of the outer radial.
+
+TopBar:
+  Background:
+    Colour: [70, 119, 184] # RGB value of the topbar.

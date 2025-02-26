@@ -1,21 +1,24 @@
 from src.window.imports import *
 
-# Creating global placeholders.
-main_window: QWidget = None
+# Local imports.
+from src.shared.config import WindowConfig
 
 class TopBar(QWidget):
     def __init__(
             self,
-            main_window: QWidget
+            main_window: QWidget,
+            config: WindowConfig.TopBar
     ) -> None:
         super().__init__()
         self.main_window = main_window
+        self.config = config
         
         self._add_design()
     
         self.background_widget = Background(
             parent = self,
-            main_window = self.main_window
+            main_window = self.main_window,
+            config = self.config.background
         )
         
         self.button_widget = Buttons(
@@ -184,11 +187,13 @@ class Background(QWidget):
         def __init__(
                 self,
                 parent: QWidget,
-                main_window: QWidget
+                main_window: QWidget,
+                config: WindowConfig.TopBar.Background
         ) -> None:
             """Background QWidget that will fill the background of the TopBar with a solid colour."""
             super().__init__(parent)
             self.main_window = main_window
+            self.config = config
             
             self._add_design()
             
@@ -208,14 +213,14 @@ class Background(QWidget):
             Returns:
                 QLabel: Label created from the function.
             """
+            print(tuple(self.config.colour))
+            
             label = QLabel()
-            label.setStyleSheet("""
-                QLabel {
-                    background-color: red;
-                    border-top-left-radius: 20px;
-                    border-top-right-radius: 20px;    
-                }
-            """) # Set the colour and add a rounded edge to the top-left and top-right.
+            label.setStyleSheet(
+                f"background-color: rgb{tuple(self.config.colour)};"
+                "border-top-left-radius: 20px;"
+                "border-top-right-radius: 20px;"
+            ) # Set the colour and add a rounded edge to the top-left and top-right.
             
             return label
 
